@@ -6,7 +6,7 @@ While building model people put raw images to the ai model ImageTransform change
 
 Takes a BGR image as input. Converts it to grayscale to reduce the 3-channel colour data down to a single intensity channel, making edge computation simpler. Applies a Gaussian blur with a 5×5 kernel to suppress noise — without this, the Canny detector picks up false edges from texture and compression artifacts. Finally runs OpenCV's Canny algorithm with a low threshold of 50 and a high threshold of 150, meaning any gradient stronger than 150 is kept as a definite edge, anything below 50 is discarded, and anything in between is kept only if it physically connects to a strong edge. Returns a binary image where white pixels are detected edges.
 
-### `region_of_interest(lane_image)` *(removed in the updated version)*
+### `region_of_interest(lane_image)` *(remove in the updated version)*
 
 Accepted a single-channel image and carved out a triangular window using hardcoded pixel coordinates — bottom-left at (200, height), bottom-right at (1100, height), and an apex at (550, 250). Created a blank mask of the same size, filled the triangle with white using `fillPoly`, then used `bitwise_and` to zero out everything outside the triangle. The fatal flaw was those fixed numbers: they only matched one specific 1280×720 frame, so on any other resolution the mask would be misaligned or completely wrong. This is why the updated version replaces it with ratio-based coordinates read from matplotlib's axes.
 
